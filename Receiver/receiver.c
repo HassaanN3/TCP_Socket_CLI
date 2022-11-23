@@ -9,18 +9,18 @@
 
 void display() {
     FILE *fp;
-    char c;
-    fp = fopen("Result.txt", "r");
-    if (fp == NULL) {
-        printf("Cannot open file\n");
-        exit(0);
+	char c;
+	fp = fopen("Result.txt", "r");
+	if (fp == NULL) {
+		printf("Cannot open file \n");
+		exit(0);
+	}
+	c = fgetc(fp);
+	while (c != EOF) {
+		printf ("%c", c);
+		c = fgetc(fp);
     }
-    c = fgetc(fp);
-    while (c != EOF){
-        printf("%c", c);
-        c = fgetc(fp);
-    }
-    fclose(fp);
+	fclose(fp);
 }
 
 int main() {
@@ -83,10 +83,6 @@ int main() {
                                 perror("Error while writing to socket");
                             }
                             else {
-                                //TODO
-                                //receive file - Done
-                                //write to display
-                                //might have to create a temp file -> to remove garbage EOF
                                 puts("");
                                 output = fopen("Result.txt", "wb");
                                 while (1) { 
@@ -104,10 +100,8 @@ int main() {
                                     fwrite(buffer, 1, n, output);
                                 }
                                 puts("\n");
-                                //Display
                                 display();
-                                //Remove
-                                //remove("Result.txt");
+                                //remove("Result.txt"); //TODO
                                 if (output != NULL) {
                                     fclose(output);
                                 }
