@@ -7,10 +7,6 @@
 
 #define MAX_SIZE 32
 
-char *get_filename_ext(char *filename) {
-    char *dot = strrchr(filename, '.');
-    return dot;
-}
 
 int main() {
     int socketfd, portno = 8080, n, input, file_number = 0;
@@ -58,13 +54,13 @@ int main() {
                 else {
                     puts("\nSuccessfully connected to Server");
                     while(1) {
-                            puts("1. Request File\n2. Close Socket");
+                            puts("1. Enter Command\n2. Close Socket");
                             printf(": ");
                             
                             fgets(buffer, MAX_SIZE, stdin);
                             input = atoi(buffer);
-                        if (input == 1) {    //Request File
-                            printf("\nEnter the file name: ");
+                        if (input == 1) {    //Command
+                            printf("\nEnter the command: ");
                             memset(buffer, 0, MAX_SIZE);    //clearing buffer cuz its C duh -> no risk
                             fgets(buffer, MAX_SIZE - 1, stdin);
                             buffer[strlen(buffer) - 1] = '\0';
@@ -74,7 +70,11 @@ int main() {
                                 perror("Error while writing to socket");
                             }
                             else {
-                                read(socketfd, buffer, MAX_SIZE);     //Read whether file exists or not
+                                //TODO
+                                //receive file
+                                //write to display
+                                //might have to create a temp file -> to remove garbage EOF
+                                /*read(socketfd, buffer, MAX_SIZE);     //Read whether file exists or not
                                 if(!strcmp(buffer, "exists")) {  //file exists
                                     char new_file_name[MAX_SIZE] = "receive_";
                                     char temp[5];   //temp array to store file_number (as string)
@@ -107,7 +107,7 @@ int main() {
                                 }
                                 else {  //Does not exist
                                     puts("\nFile does not exist in the server database");
-                                }
+                                }*/
                             }
                         }
                         else if (input == 2){

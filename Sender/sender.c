@@ -70,7 +70,7 @@ int main() {
             while(1) {
                 puts("Waiting for request...");
                 bzero(buffer, MAX_SIZE); //clearing char array (string)
-                n = read(newsocketfd, buffer, MAX_SIZE);  //reading file name -> via receiver/client request
+                n = read(newsocketfd, buffer, MAX_SIZE);  //reading command -> via receiver/client request
                 if (n < 0) {
                     perror("Error while reading from socket");
                 }
@@ -80,10 +80,13 @@ int main() {
                         close(newsocketfd); //Disconnect from pair socket
                         break;
                     }
-                    strcpy(file_name, buffer);  //saving file_name for future use
-                    printf("File request received from client %s\nFile name: %s\n", inet_ntoa(client_addr.sin_addr), buffer);
-                    //Send file
-                    if(fp = fopen(buffer, "rb")) {  //File exists
+                    //strcpy(file_name, buffer);  //saving file_name for future use
+                    printf("Command received from client %s\nCommand: %s\n", inet_ntoa(client_addr.sin_addr), buffer);
+                    //TODO
+                    //Run command
+                    //Store in file
+                    //Send file (txt)
+                    /*if(fp = fopen(buffer, "rb")) {  //File exists
                     //TO use buffer
                         char exists[MAX_SIZE] = "exists";
                         write(newsocketfd, exists, MAX_SIZE);
@@ -107,12 +110,7 @@ int main() {
                         puts("Client disconnected");
                         close(newsocketfd); //closing socket as file transfer complete
                         break;
-                    }
-                    else {
-                        char exists[MAX_SIZE] = "!exists";
-                        write(newsocketfd, exists, MAX_SIZE);
-                        puts("File does not exist");
-                    }
+                    }*/
                 }
             }
         }
