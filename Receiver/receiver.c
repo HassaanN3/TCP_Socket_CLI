@@ -46,7 +46,6 @@ int main() {
         printf(": ");
         fgets(buffer, MAX_SIZE, stdin);
         input = atoi(buffer);
-
         if (input == 1) {   //Connect to Server
             server = gethostbyname(ip);
             socketfd = socket(AF_INET, SOCK_STREAM, 0);   //IPv4 protocols & 2-way reliable connection based
@@ -101,10 +100,10 @@ int main() {
                                 if (output != NULL) {
                                     fclose(output);
                                 }
-                                puts("\nOutput:\n");
+                                puts("Output:\n");
                                 display();
                                 remove("Result.txt");
-                                puts("\nDisconnected from Socket");
+                                puts("\n\nDisconnected from Socket");
                                 break;  //server closes socket after file transfer hence breaking the loop
                             }
                         }
