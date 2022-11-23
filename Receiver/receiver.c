@@ -83,7 +83,6 @@ int main() {
                                 perror("Error while writing to socket");
                             }
                             else {
-                                puts("");
                                 output = fopen("Result.txt", "wb");
                                 while (1) { 
                                     bzero(buffer, MAX_SIZE);    //Clearing Buffer cuz its C duh                                       
@@ -98,14 +97,14 @@ int main() {
                                     else if (n == 0) // Socket closed -> Transfer completed
                                         break;
                                     fwrite(buffer, 1, n, output);
-                                }
-                                puts("\n");
-                                display();
-                                //remove("Result.txt"); //TODO
+                                }                                
                                 if (output != NULL) {
                                     fclose(output);
                                 }
-                                puts("Disconnected from Socket");
+                                puts("\nOutput:\n");
+                                display();
+                                remove("Result.txt");
+                                puts("\nDisconnected from Socket");
                                 break;  //server closes socket after file transfer hence breaking the loop
                             }
                         }

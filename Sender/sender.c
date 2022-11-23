@@ -81,7 +81,6 @@ int main() {
                         break;
                     }
                     printf("Command received from client %s\nCommand: %s\n", inet_ntoa(client_addr.sin_addr), buffer);
-                    //CHANGES FROM HERE TODO-REMOVE
                     char* command = (char*)malloc(strlen(buffer) + 1 + 13); //allocating memory to pointer
                     //memory allocated = buffer lenght (total characters) + 1 for terminating character + 10 for " > Result.txt"
                     strcpy(command, buffer);
@@ -105,7 +104,7 @@ int main() {
                     if (fp != NULL)  {
                         fclose(fp);
                     }
-                    //remove("Result.txt"); TODO
+                    remove("Result.txt");
                     puts("Client disconnected");
                     close(newsocketfd); //closing socket as file transfer complete
                     break;
