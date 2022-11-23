@@ -29,7 +29,7 @@ char* get_machine_ip() {
 
 int main() {
     int socketfd, newsocketfd, n, portno = 8080;
-    char buffer[MAX_SIZE], file_name[MAX_SIZE];
+    char buffer[MAX_SIZE];
     FILE *fp;
     struct sockaddr_in server_addr, client_addr;
     struct hostent *server;
@@ -81,10 +81,7 @@ int main() {
                         break;
                     }
                     printf("Command received from client %s\nCommand: %s\n", inet_ntoa(client_addr.sin_addr), buffer);
-                    //TODO
-                    //Run command - Done
-                    //Store in file - Done
-                    //Send file (txt) - Remaining ez
+                    //CHANGES FROM HERE TODO-REMOVE
                     char* command = (char*)malloc(strlen(buffer) + 1 + 13); //allocating memory to pointer
                     //memory allocated = buffer lenght (total characters) + 1 for terminating character + 10 for " > Result.txt"
                     strcpy(command, buffer);
@@ -108,6 +105,7 @@ int main() {
                     if (fp != NULL)  {
                         fclose(fp);
                     }
+                    //remove("Result.txt"); TODO
                     puts("Client disconnected");
                     close(newsocketfd); //closing socket as file transfer complete
                     break;

@@ -24,8 +24,8 @@ void display() {
 }
 
 int main() {
-    int socketfd, portno = 8080, n, input, file_number = 0;
-    char buffer[MAX_SIZE], file_name[MAX_SIZE], ip[MAX_SIZE], port[MAX_SIZE];
+    int socketfd, portno = 8080, n, input;
+    char buffer[MAX_SIZE], ip[MAX_SIZE], port[MAX_SIZE];
     FILE *output;
     struct sockaddr_in server_addr;
     struct hostent *server;
@@ -71,7 +71,6 @@ int main() {
                     while(1) {
                             puts("1. Enter Command\n2. Close Socket");
                             printf(": ");
-                            
                             fgets(buffer, MAX_SIZE, stdin);
                             input = atoi(buffer);
                         if (input == 1) {    //Command
@@ -79,8 +78,7 @@ int main() {
                             memset(buffer, 0, MAX_SIZE);    //clearing buffer cuz its C duh -> no risk
                             fgets(buffer, MAX_SIZE - 1, stdin);
                             buffer[strlen(buffer) - 1] = '\0';
-                            strcpy(file_name, buffer);  //saving file name -> to separate extension later on
-                            n = write(socketfd, buffer, strlen(buffer));  //Sending file name to server
+                            n = write(socketfd, buffer, strlen(buffer));  //Sending command to server
                             if (n < 0) {
                                 perror("Error while writing to socket");
                             }
@@ -89,12 +87,12 @@ int main() {
                                 //receive file - Done
                                 //write to display
                                 //might have to create a temp file -> to remove garbage EOF
-                                
+                                puts("");
                                 output = fopen("Result.txt", "wb");
-                                while (1) {                                        
+                                while (1) { 
+                                    bzero(buffer, MAX_SIZE);    //Clearing Buffer cuz its C duh                                       
                                     n = read(socketfd, buffer, MAX_SIZE);
                                     if(strstr(buffer, "EOF")) {  //check for EOF -> Custom repeating string that denotes end of string
-
                                         explicit_bzero(strstr(buffer, "EOF"), MAX_SIZE); //Clear n bytes of memory from the point where the first EOF identified
                                         fwrite(buffer, 1, n, output);  //Write final transferred buffer
                                         break;
@@ -105,6 +103,7 @@ int main() {
                                         break;
                                     fwrite(buffer, 1, n, output);
                                 }
+                                puts("\n");
                                 //Display
                                 display();
                                 //Remove
