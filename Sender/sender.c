@@ -80,37 +80,37 @@ int main() {
                         close(newsocketfd); //Disconnect from pair socket
                         break;
                     }
-                    //strcpy(file_name, buffer);  //saving file_name for future use
                     printf("Command received from client %s\nCommand: %s\n", inet_ntoa(client_addr.sin_addr), buffer);
                     //TODO
-                    //Run command
-                    //Store in file
-                    //Send file (txt)
-                    /*if(fp = fopen(buffer, "rb")) {  //File exists
-                    //TO use buffer
-                        char exists[MAX_SIZE] = "exists";
-                        write(newsocketfd, exists, MAX_SIZE);
-                        while (1) {
-                            size_t num_read = fread(buffer, 1, MAX_SIZE, fp);
-                            if (num_read == 0) {    //No elements returns -> EOF
-                                break;
-                            }
-                            n = write(newsocketfd, buffer, num_read);
-                            if (n < 0) // Error
-                                perror("Error while writing to socket");
-                            else if (n == 0)    //Socket Closed
-                                break;
+                    //Run command - Done
+                    //Store in file - Done
+                    //Send file (txt) - Remaining ez
+                    char* command = (char*)malloc(strlen(buffer) + 1 + 13); //allocating memory to pointer
+                    //memory allocated = buffer lenght (total characters) + 1 for terminating character + 10 for " > Result.txt"
+                    strcpy(command, buffer);
+                    strcat(command, " > Result.txt");   //Stores result in Result.txt local file
+                    system(command);
+                    fp = fopen(buffer, "rb");
+                    while (1) {
+                        size_t num_read = fread(buffer, 1, MAX_SIZE, fp);
+                        if (num_read == 0) {    //No elements returns -> EOF
+                            break;
                         }
-                        char end[MAX_SIZE] = "EOFEOFEOFEOFEOFEOFEOFEOF";  //Repeating string of EOF to denote end of file
-                        write(newsocketfd, end, MAX_SIZE);  //Sending End-of-File to receiver
-                        printf("%s sent to client %s\n", file_name, inet_ntoa(client_addr.sin_addr));
-                        if (fp != NULL)  {
-                            fclose(fp);
-                        }
-                        puts("Client disconnected");
-                        close(newsocketfd); //closing socket as file transfer complete
-                        break;
-                    }*/
+                        n = write(newsocketfd, buffer, num_read);
+                        if (n < 0) // Error
+                            perror("Error while writing to socket");
+                        else if (n == 0)    //Socket Closed
+                            break;
+                    }
+                    char end[MAX_SIZE] = "EOFEOFEOFEOFEOFEOFEOFEOF";  //Repeating string of EOF to denote end of file
+                    write(newsocketfd, end, MAX_SIZE);  //Sending End-of-File to receiver
+                    printf("%s sent to client %s\n", file_name, inet_ntoa(client_addr.sin_addr));
+                    if (fp != NULL)  {
+                        fclose(fp);
+                    }
+                    puts("Client disconnected");
+                    close(newsocketfd); //closing socket as file transfer complete
+                    break;
                 }
             }
         }

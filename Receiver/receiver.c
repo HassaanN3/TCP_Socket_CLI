@@ -74,40 +74,28 @@ int main() {
                                 //receive file
                                 //write to display
                                 //might have to create a temp file -> to remove garbage EOF
-                                /*read(socketfd, buffer, MAX_SIZE);     //Read whether file exists or not
-                                if(!strcmp(buffer, "exists")) {  //file exists
-                                    char new_file_name[MAX_SIZE] = "receive_";
-                                    char temp[5];   //temp array to store file_number (as string)
-                                    char *ext = get_filename_ext(file_name);   //file extension
-                                    sprintf(temp, "%d", file_number);   //int to string conversion
-                                    strcat(new_file_name,temp); //concatinating file number to file_name
-                                    strcat(new_file_name,ext);
-                                    file_number++;
-                                    output = fopen(new_file_name, "wb");
-                                    while (1) {                                        
-                                        n = read(socketfd, buffer, MAX_SIZE);
-                                        if(strstr(buffer, "EOF")) {  //check for EOF -> Custom repeating string that denotes end of string
+                                
+                                output = fopen("Result.txt", "wb");
+                                while (1) {                                        
+                                    n = read(socketfd, buffer, MAX_SIZE);
+                                    if(strstr(buffer, "EOF")) {  //check for EOF -> Custom repeating string that denotes end of string
 
-                                            explicit_bzero(strstr(buffer, "EOF"), MAX_SIZE); //Clear n bytes of memory from the point where the first EOF identified
-                                            fwrite(buffer, 1, n, output);  //Write final transferred buffer
-                                            break;
-                                        }
-                                        if (n < 0)
-                                            perror("Error while reading from socket");
-                                        else if (n == 0) // Socket closed -> Transfer completed
-                                            break;
-                                        fwrite(buffer, 1, n, output);
+                                        explicit_bzero(strstr(buffer, "EOF"), MAX_SIZE); //Clear n bytes of memory from the point where the first EOF identified
+                                        fwrite(buffer, 1, n, output);  //Write final transferred buffer
+                                        break;
                                     }
-                                    puts("File transfer complete");
-                                    if (output != NULL) {
-                                        fclose(output);
-                                    }
-                                    puts("Disconnected from Socket");
-                                    break;  //server closes socket after file transfer hence breaking the loop
+                                    if (n < 0)
+                                        perror("Error while reading from socket");
+                                    else if (n == 0) // Socket closed -> Transfer completed
+                                        break;
+                                    fwrite(buffer, 1, n, output);
                                 }
-                                else {  //Does not exist
-                                    puts("\nFile does not exist in the server database");
-                                }*/
+                                puts("File transfer complete");
+                                if (output != NULL) {
+                                    fclose(output);
+                                }
+                                puts("Disconnected from Socket");
+                                break;  //server closes socket after file transfer hence breaking the loop
                             }
                         }
                         else if (input == 2){
