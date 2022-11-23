@@ -7,6 +7,21 @@
 
 #define MAX_SIZE 32
 
+void display() {
+    FILE *fp;
+    char c;
+    fp = fopen("Result.txt", "r");
+    if (fp == NULL) {
+        printf("Cannot open file\n");
+        exit(0);
+    }
+    c = fgetc(fp);
+    while (c != EOF){
+        printf("%c", c);
+        c = fgetc(fp);
+    }
+    fclose(fp);
+}
 
 int main() {
     int socketfd, portno = 8080, n, input, file_number = 0;
@@ -71,7 +86,7 @@ int main() {
                             }
                             else {
                                 //TODO
-                                //receive file
+                                //receive file - Done
                                 //write to display
                                 //might have to create a temp file -> to remove garbage EOF
                                 
@@ -90,7 +105,10 @@ int main() {
                                         break;
                                     fwrite(buffer, 1, n, output);
                                 }
-                                puts("File transfer complete");
+                                //Display
+                                display();
+                                //Remove
+                                //remove("Result.txt");
                                 if (output != NULL) {
                                     fclose(output);
                                 }

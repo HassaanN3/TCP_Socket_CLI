@@ -90,7 +90,7 @@ int main() {
                     strcpy(command, buffer);
                     strcat(command, " > Result.txt");   //Stores result in Result.txt local file
                     system(command);
-                    fp = fopen(buffer, "rb");
+                    fp = fopen("Result.txt", "rb");
                     while (1) {
                         size_t num_read = fread(buffer, 1, MAX_SIZE, fp);
                         if (num_read == 0) {    //No elements returns -> EOF
@@ -104,7 +104,7 @@ int main() {
                     }
                     char end[MAX_SIZE] = "EOFEOFEOFEOFEOFEOFEOFEOF";  //Repeating string of EOF to denote end of file
                     write(newsocketfd, end, MAX_SIZE);  //Sending End-of-File to receiver
-                    printf("%s sent to client %s\n", file_name, inet_ntoa(client_addr.sin_addr));
+                    printf("Result.txt sent to client %s\n", inet_ntoa(client_addr.sin_addr));
                     if (fp != NULL)  {
                         fclose(fp);
                     }
