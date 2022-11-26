@@ -114,7 +114,7 @@ int main() {
                     }
                     char end[MAX_SIZE] = "EOFEOFEOFEOFEOFEOFEOFEOF";  //Repeating string of EOF to denote end of file
                     write(newsocketfd, end, MAX_SIZE);  //Sending End-of-File to receiver
-                    printf("Result.txt sent to client %s\n", inet_ntoa(client_addr.sin_addr));
+                    printf("Output sent to client %s\n", inet_ntoa(client_addr.sin_addr));
                     if (fp != NULL)  {
                         fclose(fp);
                     }

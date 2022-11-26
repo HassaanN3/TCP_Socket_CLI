@@ -2,6 +2,6 @@
  CN Assignment 2
 
 # TODO
- 1. Segmentation fault resending command
+ 1. Result.txt from ls
  2. Readability
- 3. Multiparamter test
+ 3. Success fail when no output
