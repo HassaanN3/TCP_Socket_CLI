@@ -2,5 +2,6 @@
  CN Assignment 2
 
 # TODO
- 1. EOF Fix
- 2. Segmentation fault resending command
+ 1. Segmentation fault resending command
+ 2. Readability
+ 3. Multiparamter test

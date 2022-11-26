@@ -7,6 +7,17 @@
 
 #define MAX_SIZE 32
 
+int count_char(){   //TODO simplify
+    FILE* fp;
+    int count = 0;
+    char c;
+    fp = fopen("Result.txt", "r");
+    for (c = getc(fp); c != EOF; c = getc(fp))
+        count++;
+    fclose(fp);
+    return count;
+}
+
 char* get_machine_ip() {
     char buffer[256];
 	struct hostent *hostentry;
@@ -87,6 +98,10 @@ int main() {
                     strcat(command, " > Result.txt");   //Stores result in Result.txt local file
                     system(command);
                     fp = fopen("Result.txt", "rb");
+                    //CHANGES
+                    int size = count_char();
+                    int converted_size = htonl(size);
+                    write(newsocketfd, &converted_size, sizeof(converted_size));
                     while (1) {
                         size_t num_read = fread(buffer, 1, MAX_SIZE, fp);
                         if (num_read == 0) {    //No elements returns -> EOF

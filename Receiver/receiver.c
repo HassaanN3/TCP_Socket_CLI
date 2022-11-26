@@ -7,6 +7,27 @@
 
 #define MAX_SIZE 32
 
+void remove_garbage(int size){
+    FILE *fileptr1, *fileptr2;
+    char ch;
+    int count = 0;
+    fileptr1 = fopen("Result.txt", "r");
+    fileptr2 = fopen("Temp.txt", "w");
+    ch = getc(fileptr1);
+    while (ch != EOF) {
+        count++;
+        putc(ch, fileptr2);
+        ch = getc(fileptr1);
+        if (count == size) {
+            break;
+        }
+    }
+    fclose(fileptr1);
+    fclose(fileptr2);
+    remove("Result.txt");
+    rename("Temp.txt", "Result.txt");
+}
+
 void display() {
     FILE *fp;
 	char c;
@@ -83,6 +104,10 @@ int main() {
                             }
                             else {
                                 output = fopen("Result.txt", "wb");
+                                //CHANGES
+                                int size = 0;
+                                read(socketfd, &size, sizeof(size));
+                                size = ntohl(size);
                                 while (1) { 
                                     bzero(buffer, MAX_SIZE);    //Clearing Buffer cuz its C duh                                       
                                     n = read(socketfd, buffer, MAX_SIZE);
@@ -101,6 +126,7 @@ int main() {
                                     fclose(output);
                                 }
                                 puts("Output:\n");
+                                remove_garbage(size);
                                 display();
                                 remove("Result.txt");
                                 puts("\n\nDisconnected from Socket");
