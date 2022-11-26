@@ -78,9 +78,9 @@ int main() {
     printf("Server Address: %s:%d\n\n", ip, portno);
     
     while (1) {
-        puts("1. Connect to Socket\n2. Enter new IP\n3. Exit");
+        puts("1. Connect to Socket\n2. Enter new IP\n3. Clear Screen\n4. Exit");
         printf(": ");
-        input = get_input(1,3);
+        input = get_input(1,4);
         if (input == 1) {   //Connect to Server
             server = gethostbyname(ip);
             socketfd = socket(AF_INET, SOCK_STREAM, 0);   //IPv4 protocols & 2-way reliable connection based
@@ -174,6 +174,9 @@ int main() {
             ipchange = true;
         }
         else if (input == 3){
+            system("clear");
+        }
+        else if (input == 4){
             exit(0);
         }
         puts("");   //new line
