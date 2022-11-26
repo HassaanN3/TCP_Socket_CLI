@@ -8,10 +8,18 @@
 
 #define MAX_SIZE 32
 
-int get_input(){
+int get_input(int min, int max) {   //scanf but better B)
     char temp_input[3];
-    fgets(temp_input, 3, stdin);
-    return atoi(temp_input);
+    int output;
+    while(1) {
+        fgets(temp_input, 3, stdin);
+        output = atoi(temp_input);
+        if (output >= min && output <= max)
+            break;
+        else
+            printf("Enter valid option between %d and %d\n: ", min, max);
+    }
+    return output;
 }
 
 void remove_garbage(int size) { //Removes any garbage values at the end of the file
@@ -53,28 +61,26 @@ void display() {    //Displays file content
 
 int main() {
     int socketfd, portno = 8080, n, input;
-    char buffer[MAX_SIZE], ip[MAX_SIZE] = "10.7.80.68", port[MAX_SIZE] = "8080";
+    //char buffer[MAX_SIZE], ip[MAX_SIZE] = "10.7.80.68", port[MAX_SIZE] = "8080";
+    char buffer[MAX_SIZE], ip[MAX_SIZE], port[MAX_SIZE];
     FILE *output;
     struct sockaddr_in server_addr;
     struct hostent *server;
     bool ipchange = true;   //flag to set new ip if changed.
     
-    /*printf("Enter Host IP: ");
+    printf("Enter Host IP: ");
     fgets(ip, MAX_SIZE, stdin);
     ip[strcspn(ip, "\n")] = 0;  //removes trailing new line that fgets creates
-
     printf("Enter Server Port: ");
     fgets(port, MAX_SIZE, stdin);
     port[strcspn(port, "\n")] = 0;  //removes trailing new line that fgets creates
     portno = atoi(port);
-
-    printf("Server Address: %s:%d\n\n", ip, portno);*/
+    printf("Server Address: %s:%d\n\n", ip, portno);
     
     while (1) {
         puts("1. Connect to Socket\n2. Enter new IP\n3. Exit");
         printf(": ");
-        fgets(buffer, MAX_SIZE, stdin);
-        input = atoi(buffer);
+        input = get_input(1,3);
         if (input == 1) {   //Connect to Server
             server = gethostbyname(ip);
             socketfd = socket(AF_INET, SOCK_STREAM, 0);   //IPv4 protocols & 2-way reliable connection based
@@ -82,7 +88,7 @@ int main() {
                 perror("Error while opening socket");
             }
             else {
-                if (ipchange){
+                if (ipchange) { //if ip has been changed, save new ip address in sockaddr_in
                     bzero((char *) &server_addr, sizeof(server_addr));  //erasing sizeof(server_addr) bits starting at &server_addr
                     server_addr.sin_family = AF_INET; //server address protocol
                     bcopy((char *)server->h_addr, (char *)&server_addr.sin_addr.s_addr, server->h_length);    //Server IP = Host IP
@@ -101,8 +107,7 @@ int main() {
                     while(1) {
                             puts("1. Enter Command\n2. Close Socket");
                             printf(": ");
-                            fgets(buffer, MAX_SIZE, stdin);
-                            input = atoi(buffer);
+                            input = get_input(1,2);
                         if (input == 1) {    //Command
                             printf("\nEnter the command: ");
                             memset(buffer, 0, MAX_SIZE);    //clearing buffer cuz its C duh -> no risk
@@ -115,7 +120,7 @@ int main() {
                             else {
                                 output = fopen("Result.txt", "wb");
                                 int size = 0;
-                                read(socketfd, &size, sizeof(size));
+                                read(socketfd, &size, sizeof(size));    //Reading number of total characters that are being sent
                                 size = ntohl(size);
                                 while (1) { 
                                     bzero(buffer, MAX_SIZE);    //Clearing Buffer cuz its C duh                                       
@@ -135,7 +140,7 @@ int main() {
                                     fclose(output);
                                 }
                                 puts("Output:\n");
-                                remove_garbage(size);
+                                remove_garbage(size);   //Removing any trailing garbage characters that might have been saved in file
                                 display();
                                 remove("Result.txt");
                                 close(socketfd);
