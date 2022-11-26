@@ -97,10 +97,20 @@ int main() {
                     strcpy(command, buffer);
                     strcat(command, " > Result.txt");   //Stores result in Result.txt local file
                     system(command);
-                    fp = fopen("Result.txt", "rb");
+                    //Can just use buffer instead of command variable but MEH
                     int size = count_char();
+                    if (size == 0) {    //If command gives no output eg mkdir
+                        fp = fopen("Result.txt", "w");
+                        char text[50];
+                        strcpy(text, buffer);
+                        strcat(text, " executed successfully"); //command executed successfully
+                        fputs(text, fp);
+                        fclose(fp);
+                        size = count_char();
+                    }
                     int converted_size = htonl(size);
                     write(newsocketfd, &converted_size, sizeof(converted_size));
+                    fp = fopen("Result.txt", "rb");
                     while (1) {
                         size_t num_read = fread(buffer, 1, MAX_SIZE, fp);
                         if (num_read == 0) {    //No elements returns -> EOF

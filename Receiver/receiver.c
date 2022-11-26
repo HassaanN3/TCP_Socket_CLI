@@ -61,21 +61,21 @@ void display() {    //Displays file content
 
 int main() {
     int socketfd, portno = 8080, n, input;
-    //char buffer[MAX_SIZE], ip[MAX_SIZE] = "10.7.80.68", port[MAX_SIZE] = "8080";
-    char buffer[MAX_SIZE], ip[MAX_SIZE], port[MAX_SIZE];
+    char buffer[MAX_SIZE], ip[MAX_SIZE] = "10.7.80.68", port[MAX_SIZE] = "8080";
+    //char buffer[MAX_SIZE], ip[MAX_SIZE], port[MAX_SIZE];
     FILE *output;
     struct sockaddr_in server_addr;
     struct hostent *server;
     bool ipchange = true;   //flag to set new ip if changed.
     
-    printf("Enter Host IP: ");
+    /*printf("Enter Host IP: ");
     fgets(ip, MAX_SIZE, stdin);
     ip[strcspn(ip, "\n")] = 0;  //removes trailing new line that fgets creates
     printf("Enter Server Port: ");
     fgets(port, MAX_SIZE, stdin);
     port[strcspn(port, "\n")] = 0;  //removes trailing new line that fgets creates
     portno = atoi(port);
-    printf("Server Address: %s:%d\n\n", ip, portno);
+    printf("Server Address: %s:%d\n\n", ip, portno);*/
     
     while (1) {
         puts("1. Connect to Socket\n2. Enter new IP\n3. Clear Screen\n4. Exit");
