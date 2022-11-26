@@ -144,7 +144,7 @@ int main() {
                                 display();
                                 remove("Result.txt");
                                 close(socketfd);
-                                puts("\n\nDisconnected from Socket");
+                                puts("\nDisconnected from Socket");
                                 break;  //server closes socket after file transfer hence breaking the loop
                             }
                         }

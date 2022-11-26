@@ -95,6 +95,9 @@ int main() {
                     char* command = (char*)malloc(strlen(buffer) + 1 + 13); //allocating memory to pointer
                     //memory allocated = buffer lenght (total characters) + 1 for terminating character + 10 for " > Result.txt"
                     strcpy(command, buffer);
+                    if (!strcmp(command, "ls")) {  //if running ls command
+                        strcat(command, " -I Result.txt");  //exclude temp file
+                    }
                     strcat(command, " > Result.txt");   //Stores result in Result.txt local file
                     system(command);
                     //Can just use buffer instead of command variable but MEH
@@ -130,6 +133,7 @@ int main() {
                     }
                     remove("Result.txt");
                     puts("Client disconnected");
+                    exit(1);
                     close(newsocketfd); //closing socket as file transfer complete
                     break;
                 }
