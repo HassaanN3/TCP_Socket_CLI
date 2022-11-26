@@ -57,7 +57,7 @@ int main() {
     FILE *output;
     struct sockaddr_in server_addr;
     struct hostent *server;
-    bool ipchange = true;
+    bool ipchange = true;   //flag to set new ip if changed.
     
     /*printf("Enter Host IP: ");
     fgets(ip, MAX_SIZE, stdin);
@@ -85,7 +85,6 @@ int main() {
                 if (ipchange){
                     bzero((char *) &server_addr, sizeof(server_addr));  //erasing sizeof(server_addr) bits starting at &server_addr
                     server_addr.sin_family = AF_INET; //server address protocol
-                    //CRASH HERE
                     bcopy((char *)server->h_addr, (char *)&server_addr.sin_addr.s_addr, server->h_length);    //Server IP = Host IP
                     server_addr.sin_port = htons(portno);     //Host byte order
                     ipchange = false;
