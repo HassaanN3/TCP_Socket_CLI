@@ -40,6 +40,7 @@ char* get_machine_ip() {
 
 int main() {
     int socketfd, newsocketfd, n, portno = 8080;
+    int size, converted_size;   //for character count (reliablity)
     char buffer[MAX_SIZE];
     FILE *fp;
     struct sockaddr_in server_addr, client_addr;
@@ -102,7 +103,7 @@ int main() {
                     strcat(command, " > Result.txt");   //Stores result in Result.txt local file
                     system(command);
                     //Can just use buffer instead of command variable but MEH
-                    int size = count_char();
+                    size = count_char();
                     if (size == 0) {    //If command gives no output eg mkdir
                         fp = fopen("Result.txt", "w");
                         char text[50];
@@ -112,7 +113,7 @@ int main() {
                         fclose(fp);
                         size = count_char();
                     }
-                    int converted_size = htonl(size);
+                    converted_size = htonl(size);
                     write(newsocketfd, &converted_size, sizeof(converted_size));
                     fp = fopen("Result.txt", "rb");
                     while (1) {
