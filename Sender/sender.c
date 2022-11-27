@@ -107,7 +107,7 @@ int main() {
                         fp = fopen("Result.txt", "w");
                         char text[50];
                         strcpy(text, buffer);
-                        strcat(text, " executed successfully"); //command executed successfully
+                        strcat(text, " executed successfully\nNo output generated\n"); //command executed successfully
                         fputs(text, fp);
                         fclose(fp);
                         size = count_char();
@@ -134,7 +134,6 @@ int main() {
                     }
                     remove("Result.txt");
                     puts("Client disconnected");
-                    exit(1);
                     close(newsocketfd); //closing socket as file transfer complete
                     break;
                 }

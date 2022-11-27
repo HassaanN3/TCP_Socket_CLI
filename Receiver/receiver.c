@@ -95,8 +95,8 @@ int main() {
                     server_addr.sin_port = htons(portno);     //Host byte order
                     ipchange = false;
                 }
-                //To speed-up connect timeoutput
-                int synRetries = 2; // Send a total of 3 SYN packets => Timeoutput ~7s
+                //To speed-up connect timeout
+                int synRetries = 2; // Send a total of 3 SYN packets => Timeout ~7s
                 setsockopt(socketfd, IPPROTO_TCP, TCP_SYNCNT, &synRetries, sizeof(synRetries));
                 //Reference https://stackoverflow.com/a/46473173
                 if (connect(socketfd,(struct sockaddr *) &server_addr,sizeof(server_addr)) < 0) {
