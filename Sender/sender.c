@@ -49,6 +49,7 @@ int main() {
     char *ip = get_machine_ip();   //get machine public ip
     server = gethostbyname(ip); 
     socketfd = socket(AF_INET, SOCK_STREAM, 0);   //IPv4 protocols & 2-way reliable connection based
+    
     if (socketfd < 0) {
         perror("Error while opening socket");
         return 0;
